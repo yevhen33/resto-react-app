@@ -6,7 +6,7 @@ const reduser = (state = initialState, action) => {
     switch (action.type) {
         case 'MENU_LOADED':
             return {
-                menu: action.playload
+                menu: action.payload
             };
         default:
             return state;
