@@ -29,14 +29,14 @@ class MenuList extends Component {
             return <Spinner/>
         }
 
+        const items = menuItems.map(menuItem => {
+                return (
+                    <MenuListItem key={menuItem.id} menuItem={menuItem}/>
+                )
+            })
+
         return (
-            <ul className="menu__list">
-                {
-                    menuItems.map(menuItem => {
-                        return <MenuListItem key={menuItem.id} menuItem={menuItem}/>
-                    })
-                } 
-            </ul>
+            <View items = {items}/> 
         )
     }
 };
@@ -53,5 +53,14 @@ const mapDispatchToProps = {
         menuRequested,
         menuError
 };
+
+const View = ({items}) => {
+
+    return (
+        <ul className="menu__list">
+            {items}
+        </ul>
+    ) 
+}
 
 export default WithRestoService()(connect(mapStateToProps, mapDispatchToProps)(MenuList));
