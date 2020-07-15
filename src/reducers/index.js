@@ -1,6 +1,7 @@
 const initialState = {
     menu: [],
-    loading: true
+    loading: true,
+    error: false
 }
 
 const reduser = (state = initialState, action) => {
@@ -8,12 +9,20 @@ const reduser = (state = initialState, action) => {
         case 'MENU_LOADED':
             return {
                 menu: action.payload,
-                loading: false
+                loading: false,
+                error: false
             };
         case 'MENU_REQUESTED':
             return {
                 menu: state.menu,
-                loading: true
+                loading: true,
+                error: false
+            };
+        case 'MENU_ERROR':
+            return {
+                menu: state.menu,
+                loading: true,
+                error: true
             };
         default:
             return state;
