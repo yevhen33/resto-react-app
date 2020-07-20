@@ -1,16 +1,22 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {deleteFromCart} from '../../actions'
+import WithRestoService from '../hoc';
 import './cart-table.scss';
 
-const CartTable = ({items, deleteFromCart}) => {
+const CartTable = ({items, deleteFromCart, RestoService}) => {
+
+    if( items.length === 0){
+        return (<div className="cart__title"> Ваша корзина пуста :( </div>)
+    }
+
     return (
         <>
             <div className="cart__title">Ваш заказ:</div>
             <div className="cart__list">
                 {
                     items.map(item => {
-                        const {title, url, price, id} = item;
+                        const {title, url, price, id, qtty} = item;
                         return (
                             <div key={id} className="cart__item">
                                 <img src={url} className="cart__item-img" alt={title}></img>
@@ -22,9 +28,23 @@ const CartTable = ({items, deleteFromCart}) => {
                     })
                 }
             </div>
+
+            <button onClick = {() => {RestoService.setOrder(generateOrder(items))}} className = "order">
+                Оформить заказ
+            </button>
         </>
     );
 };
+
+const generateOrder = (items) => {
+    const newOrder = items.map(item => {
+        return {
+            id: item.id,
+            qtty: item.qtty
+        }
+    })
+    return newOrder;
+}
 
 const mapStateToProps = ({items}) => {
     return {
@@ -36,4 +56,4 @@ const mapDispatchToProps = {
     deleteFromCart
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CartTable);
+export default WithRestoService()(connect(mapStateToProps, mapDispatchToProps)(CartTable));
